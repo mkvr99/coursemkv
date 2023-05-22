@@ -48,6 +48,7 @@ public class SignUpController {
                 stage.setScene(new Scene(loader.load()));
                 HelloController newcontrol = loader.getController();
                 newcontrol.setDb(db);
+                stage.setTitle("Helper_VGTU");
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -60,6 +61,7 @@ public class SignUpController {
                 stage.setScene(new Scene(loader.load()));
                 HelloController newcontrol = loader.getController();
                 newcontrol.setDb(db);
+                stage.setTitle("Helper_VGTU");
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();

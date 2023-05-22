@@ -47,6 +47,7 @@ public class HelloController {
             stage.setScene(new Scene(loader.load()));
             SignUpController newcontrol = loader.getController();
             newcontrol.setDb(db);
+            stage.setTitle("Helper_VGTU");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,6 +59,14 @@ public class HelloController {
         db.Connection();
         if(user_box.isSelected()){
             db.loginUser(login_field.getText(), password_field.getText(), actionEvent);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("window_user.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            UserControl newcontrol = loader.getController();
+            newcontrol.setDb(db);
+            newcontrol.setUser(db.getUser());
+            stage.setTitle("Helper_VGTU");
+            stage.show();
         } else if(admin_box.isSelected()){
             db.loginAdmin(login_field.getText(), password_field.getText(), actionEvent);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("window_admin.fxml"));
@@ -66,6 +75,7 @@ public class HelloController {
             AdminControl admControl = loader.getController();
             admControl.setDb(db);
             admControl.setAdmin(db.getAdmin());//newcontrol.setMessages(messages);
+            stage.setTitle("Helper_VGTU");
             stage.show();
         } else{
             System.out.println("error!");

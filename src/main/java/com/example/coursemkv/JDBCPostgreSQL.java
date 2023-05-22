@@ -3,12 +3,8 @@ package com.example.coursemkv;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +18,12 @@ public class JDBCPostgreSQL {
 
     Messages messages;
     Admin admin;
+
+    public User getUser() {
+        return user;
+    }
+
+    User user;
     JDBCPostgreSQL db;
 
     public Connection getConnection() {
@@ -101,8 +103,8 @@ public class JDBCPostgreSQL {
             e.printStackTrace();
             return;
         }
-        String query = "INSERT INTO admins(firstname, lastname) VALUES(?, ?)";
 
+        String query = "INSERT INTO admins(firstname, lastname) VALUES(?, ?)";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, login);
             pst.setString(2, password);
@@ -132,7 +134,7 @@ public class JDBCPostgreSQL {
             e.printStackTrace();
             return;
         }
-
+        user = new User();
         String query = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
         ResultSet resultSet;
 
@@ -140,6 +142,7 @@ public class JDBCPostgreSQL {
             pst.setString(1, login);
             pst.setString(2, password);
             resultSet = pst.executeQuery();
+
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("User not found in the database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -152,17 +155,9 @@ public class JDBCPostgreSQL {
 
 
                     if (log.equals(login) && pass.equals(password)) {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("window_user.fxml"));
-                            Stage stage = new Stage();
-                            stage.setScene(new Scene(loader.load()));
-                            UserControl newcontrol = loader.getController();
-                            newcontrol.setDb(db);
-                            stage.show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
+                            user.setId_users(resultSet.getInt("id_users"));
+                            user.setFirstname(log);
+                            user.setLastname(pass);
                     } else {
                         System.out.println("Login or password did not match!");
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -257,11 +252,9 @@ public class JDBCPostgreSQL {
             System.out.println("Connection Failed");
             e.printStackTrace();
         }
-
         ObservableList<Messages> data = FXCollections.observableArrayList();
-
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM message WHERE mes_id="+adm.getAdmin_id());
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM message");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -271,7 +264,7 @@ public class JDBCPostgreSQL {
                         rs.getString("description")
                 );
                 System.out.println(message.getMes_id());
-                System.out.println(message.getId_user());
+                System.out.println(message.getId_users());
                 data.add(message);
             }
         } catch (SQLException e) {
@@ -347,24 +340,22 @@ public class JDBCPostgreSQL {
         }
     }
 
-    public void createMessage(String text, ActionEvent event) {
+    public String createMessage(String text, User user) {
         try {
             this.connection = DriverManager
                     .getConnection(DB_URL, USER, PASS);
         } catch (SQLException e) {
             System.out.println("Connection Failed");
             e.printStackTrace();
-            return;
         }
 
-        String def_mail = "new";
-        String query = "INSERT INTO message(mes_id, status, id_users, description) VALUES(?, ?, ?, ?)";
+        String def_mail = "Заявка отправлена";
+        String query = "INSERT INTO message(status, id_users, description) VALUES(?, ?, ?)";
 
         try (PreparedStatement pst = connection.prepareStatement(query)) {
-            pst.setInt(1, HelloApplication.id_mail);
-            pst.setString(2, def_mail);
-            pst.setInt(3, HelloApplication.id_user);
-            pst.setString(4, text);
+            pst.setString(1, def_mail);
+            pst.setInt(2, user.getId_users());
+            pst.setString(3, text);
             pst.executeUpdate();
             System.out.println("success created message");
         } catch (SQLException error) {
@@ -378,9 +369,10 @@ public class JDBCPostgreSQL {
                 throw new RuntimeException(e);
             }
         }
+        return def_mail;
     }
 
-    public void update(String text, ActionEvent actionEvent) {
+    public void update(String text, int idID) {
         try {
             this.connection = DriverManager
                     .getConnection(DB_URL, USER, PASS);
@@ -389,16 +381,15 @@ public class JDBCPostgreSQL {
             e.printStackTrace();
             return;
         }
-
-        String def_mail = "Обработано";
         String query = "UPDATE message SET status = ? WHERE id = ?";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
-            pst.setInt(1, HelloApplication.id_mail);
-            pst.setString(2, def_mail);
+            pst.setString(1, text);
+            pst.setInt(2, idID);
             int n = pst.executeUpdate();  // выполнить UPDATE запрос
-            //System.out.println("Количество обновлённых строк: " + n);
+            System.out.println("Количество обновлённых строк: " + n);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 }

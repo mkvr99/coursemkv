@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.coursemkv.HelloController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursemkv.HelloController">
     <children>
     <AnchorPane layoutX="8.0" layoutY="132.0" prefHeight="254.0" prefWidth="580.0">
         <children>
@@ -17,12 +12,15 @@
             <Button fx:id="reg" layoutX="230.0" layoutY="218.0" mnemonicParsing="false" onAction="#reg" text="Зарегистрироваться" />
             <TextField fx:id="password_field" layoutX="216.0" layoutY="71.0" />
             <TextField fx:id="login_field" layoutX="216.0" layoutY="29.0" />
-            <CheckBox fx:id="admin_box" layoutX="216.0" layoutY="128.0" mnemonicParsing="false" text="Дежурный" />
-            <CheckBox fx:id="user_box" layoutX="316.0" layoutY="128.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="109.0" text="Пользователь" />
+            <CheckBox fx:id="admin_box" layoutX="216.0" layoutY="128.0" mnemonicParsing="false" text="Сотрудник" />
+            <CheckBox fx:id="user_box" layoutX="316.0" layoutY="128.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="109.0" text="Посетитель" />
             <Label layoutX="157.0" layoutY="33.0" text="Логин" />
             <Label layoutX="157.0" layoutY="75.0" text="Пароль" />
         </children>
     </AnchorPane>
-        <Label fx:id="welcomelabel" layoutX="230.0" layoutY="48.0" text="Welcome to VGTU-Helper" />
+        <Label fx:id="welcomelabel" layoutX="118.0" layoutY="64.0" text="Welcome to VGTU-Helper" textFill="#308594">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font></Label>
     </children>
 </AnchorPane>

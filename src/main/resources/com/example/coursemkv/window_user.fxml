@@ -10,5 +10,6 @@
       <Label layoutX="72.0" layoutY="48.0" text="Добро пожаловать в службу помощи ВГТУ" />
       <Label layoutX="126.0" layoutY="93.0" text="Уточните информацию" />
       <TextArea fx:id="text_mail" layoutX="91.0" layoutY="117.0" prefHeight="82.0" prefWidth="200.0" />
+      <Label fx:id="label_status" layoutX="111.0" layoutY="325.0" text="Здесь появится статус заявки" />
    </children>
 </AnchorPane>

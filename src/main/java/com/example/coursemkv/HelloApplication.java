@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     public static int id_mail;
-    public static int id_user;
+    public static int id_users;
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("authorize.fxml"));

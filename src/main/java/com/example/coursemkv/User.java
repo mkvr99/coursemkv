@@ -1,22 +1,22 @@
 package com.example.coursemkv;
 
 public class User {
-    int users_id;
+    int id_users;
     String firstname;
     String lastname;
-
-    public User(int users_id, String firstname, String lastname) {
-        this.users_id = users_id;
+    public User(){}
+    public User(int id_users, String firstname, String lastname) {
+        this.id_users = id_users;
         this.firstname = firstname;
         this.lastname = lastname;
     }
 
-    public int getUsers_id() {
-        return users_id;
+    public int getId_users() {
+        return id_users;
     }
 
-    public void setUsers_id(int users_id) {
-        this.users_id = users_id;
+    public void setId_users(int id_users) {
+        this.id_users = id_users;
     }
 
     public String getFirstname() {

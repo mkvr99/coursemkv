@@ -1,7 +1,5 @@
 package com.example.coursemkv;
 
-import java.util.Date;
-
 public class Messages {
     public int mes_id;
     public String status;
@@ -31,11 +29,11 @@ public class Messages {
         this.status = status;
     }
 
-    public int getId_user() {
+    public int getId_users() {
         return id_users;
     }
 
-    public void setId_user(Date date_start) {
+    public void setId_users(int id_users) {
         this.id_users = id_users;
     }
 
@@ -43,7 +41,7 @@ public class Messages {
         return description;
     }
 
-    public void setDescription(Date date_end) {
+    public void setDescription(String description) {
         this.description = description;
     }
 }

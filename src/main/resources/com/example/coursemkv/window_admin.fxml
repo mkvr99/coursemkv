@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursemkv.AdminControl">
+   <children>
+      <Button fx:id="okbutton" layoutX="166.0" layoutY="348.0" mnemonicParsing="false" onAction="#start" text="Принять" />
+      <Button fx:id="endbutton" layoutX="352.0" layoutY="348.0" mnemonicParsing="false" onAction="#end" text="Закончить" />
+      <Button fx:id="deletebutton" layoutX="260.0" layoutY="348.0" mnemonicParsing="false" onAction="#deletemail" text="Удалить" />
+      <TableView fx:id="listmail" layoutX="74.0" layoutY="90.0" prefHeight="238.0" prefWidth="451.0">
+      <columns>
+         <TableColumn fx:id="id_mail" prefWidth="90" text="№ заявки" />
+         <TableColumn fx:id="status" prefWidth="110" text="Статус" />
+         <TableColumn fx:id="id_users" prefWidth="90" text="№ клиента" />
+         <TableColumn fx:id="text" prefWidth="155" text="Описание" />
+      </columns>
+      </TableView>
+      <Label layoutX="91.0" layoutY="41.0" text="Добро пожаловать в службу помощи ВГТУ" />
+      <Button fx:id="updatebutton" layoutX="90.0" layoutY="348.0" mnemonicParsing="false" onAction="#updateInf" text="Удалить" />
+
+   </children>
+</AnchorPane>

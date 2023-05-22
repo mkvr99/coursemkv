@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursemkv.UserControl">
+   <children>
+      <Button fx:id="send_button" layoutX="134.0" layoutY="217.0" mnemonicParsing="false" onAction="#send" text="Отправить заявку" />
+      <Button fx:id="close_button" layoutX="145.0" layoutY="258.0" mnemonicParsing="false" onAction="#close" text="Закрыть окно" />
+      <Label layoutX="72.0" layoutY="48.0" text="Добро пожаловать в службу помощи ВГТУ" />
+      <Label layoutX="126.0" layoutY="93.0" text="Уточните информацию" />
+      <TextArea fx:id="text_mail" layoutX="91.0" layoutY="117.0" prefHeight="82.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

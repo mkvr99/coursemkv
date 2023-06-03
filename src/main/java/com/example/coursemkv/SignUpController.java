@@ -1,5 +1,7 @@
 package com.example.coursemkv;
 
+import com.example.coursemkv.HelloController;
+import com.example.coursemkv.JDBCPostgreSQL;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+/**
+ * Класс обработки событий для регистрации пользователя в системе
+ */
 
 public class SignUpController {
     @FXML
@@ -31,6 +37,9 @@ public class SignUpController {
     @FXML
     private Label welcomelabel;
 
+    /**
+     * Объект класса JDBCPOstgreSQL
+     */
     JDBCPostgreSQL db;
 
     public void setDb(JDBCPostgreSQL db) {
@@ -38,6 +47,9 @@ public class SignUpController {
     }
 
 
+    /**
+     * Функция, выполняемая в результате нажатия кнопки "Зарегистрироваться"
+     */
     public void reg(ActionEvent actionEvent) {
         db = new JDBCPostgreSQL();
         if(user_box.isSelected()){

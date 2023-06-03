@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursemkv.AdminControl">
+<AnchorPane prefHeight="400.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursemkv.AdminControl">
    <children>
-      <Button fx:id="okbutton" layoutX="180.0" layoutY="348.0" mnemonicParsing="false" onAction="#start" text="Принять" />
-      <Button fx:id="endbutton" layoutX="474.0" layoutY="348.0" mnemonicParsing="false" onAction="#end" text="Выйти" />
-      <Button fx:id="deletebutton" layoutX="357.0" layoutY="348.0" mnemonicParsing="false" onAction="#deletemail" text="Удалить" />
-      <TableView fx:id="listmail" layoutX="74.0" layoutY="90.0" prefHeight="238.0" prefWidth="451.0">
+<!--      <Button fx:id="okbutton" layoutX="180.0" layoutY="348.0" mnemonicParsing="false" onAction="#start" text="Принять" />-->
+      <Button fx:id="endbutton" layoutX="523.0" layoutY="348.0" mnemonicParsing="false" onAction="#end" text="Выйти" />
+      <Button fx:id="deletebutton" layoutX="395.0" layoutY="348.0" mnemonicParsing="false" onAction="#deletemail" text="Удалить" />
+      <TableView fx:id="listmail" layoutX="74.0" layoutY="90.0" prefHeight="238.0" prefWidth="500.0">
 
 <!--         <columns>-->
 <!--         <TableColumn fx:id="id_mail" prefWidth="90" text="№ заявки" />-->
@@ -19,6 +20,9 @@
       </TableView>
       <Label layoutX="180.0" layoutY="41.0" text="Добро пожаловать в службу помощи ВГТУ" />
       <Button fx:id="updatebutton" layoutX="74.0" layoutY="348.0" mnemonicParsing="false" onAction="#updateInf" text="Обновить" />
+       <Button fx:id="end_message" layoutX="180.0" layoutY="348.0" mnemonicParsing="false" onAction="#end_message" text="Помощь оказана" />
+      <Button fx:id="load_button" layoutX="659.0" layoutY="348.0" mnemonicParsing="false" onAction="#load_button" text="Загрузить метку" />
+      <ImageView fx:id="geoimage" fitHeight="250.0" fitWidth="250.0" layoutX="586.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
 
    </children>
 </AnchorPane>

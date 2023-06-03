@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="370.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursemkv.UserControl">
+<AnchorPane prefHeight="400.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursemkv.UserControl">
    <children>
       <Button fx:id="send_button" layoutX="134.0" layoutY="217.0" mnemonicParsing="false" onAction="#send" text="Отправить заявку" />
-      <Button fx:id="close_button" layoutX="145.0" layoutY="258.0" mnemonicParsing="false" onAction="#close" text="Закрыть окно" />
+      <Button fx:id="close_button" layoutX="145.0" layoutY="360.0" mnemonicParsing="false" onAction="#close" text="Закрыть окно" />
       <Label layoutX="72.0" layoutY="48.0" text="Добро пожаловать в службу помощи ВГТУ" />
       <Label layoutX="126.0" layoutY="93.0" text="Уточните информацию" />
       <TextArea fx:id="text_mail" layoutX="91.0" layoutY="117.0" prefHeight="82.0" prefWidth="200.0" />
-      <Label fx:id="label_status" layoutX="111.0" layoutY="325.0" text="Здесь появится статус заявки" />
+      <Label fx:id="label_default" layoutX="133.0" layoutY="300.0" text="Статус вашей заявки" />
+      <Label fx:id="label_status" layoutX="172.0" layoutY="329.0" text="Статус" />
+      <ImageView fitHeight="200.0" fitWidth="250.0" layoutX="361.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="end_message" layoutX="135.0" layoutY="260.0" mnemonicParsing="false" onAction="#end_message" text="Помощь оказана" />
+      <Button fx:id="load_button" layoutX="434.0" layoutY="360.0" mnemonicParsing="false" onAction="#load_button" text="Загрузить метку" />
+      <ImageView fx:id="geoimage" fitHeight="250.0" fitWidth="250.0" layoutX="361.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
+
    </children>
 </AnchorPane>

@@ -9,12 +9,30 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Класс, используемый для подключения к БД, а также, содержащий основные методы
+ * взаимодействия с таблицами .
+ */
 
-public class JDBCPostgreSQL {
+public class JDBCPostgreSQL implements DAO {
+    /** Строка с адресом БД */
     static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/helpmkv";
+
+    /** Строка с логином для подключения к БД */
     static final String USER = "postgres";
+
+    /** Строка с паролем для подключения к БД */
     static final String PASS = "mkv";
     Connection connection = null;
+    private static JDBCPostgreSQL instance = null;
+
+    public static final JDBCPostgreSQL getInstance() {
+        if (instance == null) {
+            instance = new JDBCPostgreSQL();
+        }
+
+        return instance;
+    }
 
     Messages messages;
     Admin admin;
@@ -36,6 +54,10 @@ public class JDBCPostgreSQL {
     public Admin getAdmin(){
         return admin;
     }
+
+    /**
+     * Функция подключения к БД
+     */
     public void Connection() {
         System.out.println("Testing connection to PostgreSQL JDBC");
         try {
@@ -62,7 +84,11 @@ public class JDBCPostgreSQL {
         }
     }
 
-
+    /**
+     * Функция создания новой сущности "Пользователь"
+     * @param login логин пользователя
+     * @param password пароль пользователя
+     */
     public void createUser(String login, String password) {
         try {
             this.connection = DriverManager
@@ -94,6 +120,11 @@ public class JDBCPostgreSQL {
 
     }
 
+    /**
+     * Функция создания новой сущности "Администратор"
+     * @param login логин администратора
+     * @param password пароль администратора
+     */
     public void createAdmin(String login, String password) {
         try {
             this.connection = DriverManager
@@ -125,6 +156,11 @@ public class JDBCPostgreSQL {
 
     }
 
+    /**
+     * Функция авторизации пользователя
+     * @param login логин пользователя
+     * @param password пароль пользователя
+     */
     public void loginUser(String login, String password, ActionEvent event) {
         try {
             this.connection = DriverManager
@@ -181,6 +217,11 @@ public class JDBCPostgreSQL {
         }
     }
 
+    /**
+     * Функция авторизации администратора
+     * @param login логин администратора
+     * @param password пароль администратора
+     */
     public void loginAdmin(String login, String password, ActionEvent event) {
         try {
             this.connection = DriverManager
@@ -213,16 +254,6 @@ public class JDBCPostgreSQL {
                         admin.setFirstname(log);
                         admin.setLastname(pass);
 
-                        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("window_admin.fxml"));
-                        Stage stage = new Stage();
-                        stage.setScene(new Scene(loader.load()));
-                        AdminControl newcontrol = loader.getController();
-                        newcontrol.setDb(db);
-                        //newcontrol.setMessages(messages);
-                        stage.show();
-
-                         */
-
                     } else {
                         System.out.println("Login or password did not match!");
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -244,6 +275,10 @@ public class JDBCPostgreSQL {
         }
     }
 
+    /**
+     * Функция получения списка заявок
+     * @return возвращает список заявок
+     */
     public ObservableList<Messages> getMessages(Admin adm) {
         try {
             this.connection = DriverManager
@@ -261,7 +296,9 @@ public class JDBCPostgreSQL {
                 Messages message = new Messages(rs.getInt("mes_id"),
                         rs.getString("status"),
                         rs.getInt("id_users"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getBoolean("admin_click"),
+                        rs.getBoolean("user_click")
                 );
                 System.out.println(message.getMes_id());
                 System.out.println(message.getId_users());
@@ -270,48 +307,13 @@ public class JDBCPostgreSQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        ResultSet resultSet;
-//        String query = "SELECT * FROM message WHERE mes_id = ?";
-//
-//        try (PreparedStatement pst = connection.prepareStatement(query)) {
-//            pst.setInt(1, HelloApplication.id_mail);
-//            resultSet = pst.executeQuery();
-//
-//
-//            if (!resultSet.isBeforeFirst()) {
-//                System.out.println("mail result empty");
-//                Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setContentText("mail result empty");
-//                alert.show();
-//            } else {
-//                System.out.println("mail not empty");
-//            }
-//
-//            try {
-//                while (resultSet.next()) {
-//                    Messages event =
-//                            new Messages(
-//                                    resultSet.getInt("mes_id"),
-//                                    resultSet.getString("status"),
-//                                    resultSet.getInt("id_users"),
-//                                    resultSet.getString("description")
-//                            );
-//                    data.add(event);
-//                }
-//            } catch (SQLException error) {
-//                System.out.println(error.getMessage());
-//            }
-//
-//
-//        } catch (SQLException error) {
-//            Logger logger = Logger.getLogger(JDBCPostgreSQL.class.getName());
-//            logger.log(Level.SEVERE, error.getMessage(), error);
-//
-//        }
         return data;
     }
 
+    /**
+     * Функция удаления заявки
+     * @param id id-номер заявки
+     */
     public void deleteMessage(int id, ActionEvent event) {
         try {
             this.connection = DriverManager
@@ -340,6 +342,12 @@ public class JDBCPostgreSQL {
         }
     }
 
+    /**
+     * Функция создания заявки
+     * @param text логин администратора
+     * @param user объект класса User
+     * @return возвращает статус новой заявки
+     */
     public String createMessage(String text, User user) {
         try {
             this.connection = DriverManager
@@ -349,13 +357,16 @@ public class JDBCPostgreSQL {
             e.printStackTrace();
         }
 
-        String def_mail = "Заявка отправлена";
-        String query = "INSERT INTO message(status, id_users, description) VALUES(?, ?, ?)";
+        String def_mail = "new";
+        Boolean click = false;
+        String query = "INSERT INTO message(status, id_users, description) VALUES(?, ?, ?, ?, ?)";
 
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, def_mail);
             pst.setInt(2, user.getId_users());
             pst.setString(3, text);
+            pst.setBoolean(4, click);
+            pst.setBoolean(5, click);
             pst.executeUpdate();
             System.out.println("success created message");
         } catch (SQLException error) {
@@ -372,6 +383,11 @@ public class JDBCPostgreSQL {
         return def_mail;
     }
 
+    /**
+     * Функция обновления списка заявок
+     * @param text статус заявки
+     * @param idID id-номер выбранной заявки
+     */
     public void update(String text, int idID) {
         try {
             this.connection = DriverManager
@@ -381,7 +397,7 @@ public class JDBCPostgreSQL {
             e.printStackTrace();
             return;
         }
-        String query = "UPDATE message SET status = ? WHERE id = ?";
+        String query = "UPDATE message SET status = ? WHERE mes_id = ?";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, text);
             pst.setInt(2, idID);

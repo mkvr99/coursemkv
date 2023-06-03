@@ -1,7 +1,6 @@
 package com.example.coursemkv;
 
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -24,11 +24,15 @@ public class AdminControl implements Initializable {
     public TableColumn <Messages, String> status;
     public TableColumn <Messages, Integer> id_users;
     public TableColumn <Messages, String>text;
+    public TableColumn <Messages, Integer> admin_click;
+    public TableColumn <Messages, String> user_click;
+    public Button load_button;
+    public ImageView geoimage;
     private Messages messages;
     Admin admin;
     ObservableList<Messages> observableListMessages;
     @FXML
-    TableColumn сol0, col1, col2,col3;
+    TableColumn сol0, col1, col2,col3,col4, col5;
     JDBCPostgreSQL db;
     public void setDb(JDBCPostgreSQL db) {
         this.db = db;
@@ -72,10 +76,12 @@ public class AdminControl implements Initializable {
 
 
     public void updateInf(ActionEvent actionEvent) {
-        сol0 = new TableColumn("mes_id");
-        col1 = new TableColumn("status");
-        col2 = new TableColumn("id_users");
-        col3 = new TableColumn("description");
+        сol0 = new TableColumn("№ заявки");
+        col1 = new TableColumn("Статус");
+        col2 = new TableColumn("№ посетителя");
+        col3 = new TableColumn("Примечание");
+        col4 = new TableColumn("Утв_1");
+        col5 = new TableColumn("Утв_2");
         listmail.setEditable(true);
         observableListMessages = db.getMessages(admin);
 
@@ -87,6 +93,11 @@ public class AdminControl implements Initializable {
         col2.setCellValueFactory(new PropertyValueFactory<Messages, Integer>("id_users"));
         col3.setMinWidth(60); // ширина
         col3.setCellValueFactory(new PropertyValueFactory<Messages, String>("description"));
+        col3.setMinWidth(60); // ширина
+        col4.setCellValueFactory(new PropertyValueFactory<Messages, Integer>("admin_click"));
+        col4.setMinWidth(60); // ширина
+        col5.setCellValueFactory(new PropertyValueFactory<Messages, String>("user_click"));
+        col5.setMinWidth(60); // ширина
 
         col1.setCellFactory(TextFieldTableCell.forTableColumn());
         col1.setOnEditCommit(
@@ -110,7 +121,15 @@ public class AdminControl implements Initializable {
         listmail.getColumns().add(col1);
         listmail.getColumns().add(col2);
         listmail.getColumns().add(col3);
+        listmail.getColumns().add(col4);
+        listmail.getColumns().add(col5);
         listmail.setItems(observableListMessages);
     }
 
+    public void end_message(ActionEvent actionEvent) {
+
+    }
+
+    public void load_button(ActionEvent actionEvent) {
+    }
 }

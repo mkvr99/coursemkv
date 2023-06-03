@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Класс обработки событий в окне авторизации
+ */
 public class HelloController {
 
     @FXML
@@ -39,6 +42,9 @@ public class HelloController {
         this.db = db;
     }
 
+    /**
+     * Метод, вызываемый в результате нажатия кнопки "Зарегистрироваться"
+     */
     public void reg(ActionEvent actionEvent) throws IOException {
         db = new JDBCPostgreSQL();
         try {
@@ -54,6 +60,9 @@ public class HelloController {
         }
     }
 
+    /**
+     * Метод, вызываемый в результате нажатия кнопки "Войти"
+     */
     public void enter(ActionEvent actionEvent) throws IOException {
         db = new JDBCPostgreSQL();
         db.Connection();

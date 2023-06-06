@@ -10,10 +10,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class AdminControl implements Initializable {
@@ -28,6 +30,7 @@ public class AdminControl implements Initializable {
     public TableColumn <Messages, String> user_click;
     public Button load_button;
     public ImageView geoimage;
+    public Button end_message;
     private Messages messages;
     Admin admin;
     ObservableList<Messages> observableListMessages;
@@ -76,6 +79,7 @@ public class AdminControl implements Initializable {
 
 
     public void updateInf(ActionEvent actionEvent) {
+        db.checkStatus(admin);
         сol0 = new TableColumn("№ заявки");
         col1 = new TableColumn("Статус");
         col2 = new TableColumn("№ посетителя");
@@ -127,9 +131,15 @@ public class AdminControl implements Initializable {
     }
 
     public void end_message(ActionEvent actionEvent) {
+        Messages messages1 = listmail.getSelectionModel().getSelectedItem();
+
+        db.updateMessage(messages1.getMes_id(), true);
+
 
     }
 
     public void load_button(ActionEvent actionEvent) {
+        String filename = Paths.get("images_db/im1.jpg").toUri().toString();
+        geoimage.setImage(new Image(filename));
     }
 }

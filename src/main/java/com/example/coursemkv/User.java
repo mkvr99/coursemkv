@@ -7,7 +7,7 @@ package com.example.coursemkv;
 
 public class User extends myHuman {
     /** Поле id посетителя */
-    int id_users;
+    static int  id_users;
     /** Поле логин посетителя*/
     String firstname;
     /** Поле пароль посетителя */

@@ -26,13 +26,13 @@ public class JDBCPostgreSQL implements DAO {
     Connection connection = null;
     private static JDBCPostgreSQL instance = null;
 
-    public static final JDBCPostgreSQL getInstance() {
+    public static JDBCPostgreSQL getInstance() {
         if (instance == null) {
             instance = new JDBCPostgreSQL();
         }
-
         return instance;
     }
+
 
     Messages messages;
     Admin admin;
@@ -82,6 +82,36 @@ public class JDBCPostgreSQL implements DAO {
         } else {
             System.out.println("Failed to make connection to database");
         }
+    }
+
+    public void checkStatus(Admin admin) {
+
+        ObservableList<Messages> observableListMessages = getMessages(admin);
+
+        try {
+            this.connection = DriverManager
+                    .getConnection(DB_URL, USER, PASS);
+        } catch (SQLException e) {
+            System.out.println("Connection Failed");
+            e.printStackTrace();
+            return;
+        }
+
+        String query = "UPDATE message SET status = 'end' WHERE mes_id = ?";
+
+        observableListMessages.forEach( (node) -> {
+            if (node.isAdmin_click() && node.isUser_click()) {
+                try (PreparedStatement pst = connection.prepareStatement(query)) {
+                    pst.setInt(1, node.getMes_id());
+                    pst.executeUpdate();
+                    System.out.println("success update");
+                } catch (SQLException error) {
+                    Logger logger = Logger.getLogger(JDBCPostgreSQL.class.getName());
+                    logger.log(Level.SEVERE, error.getMessage(), error);
+                }
+            }
+
+        });
     }
 
     /**
@@ -359,7 +389,7 @@ public class JDBCPostgreSQL implements DAO {
 
         String def_mail = "new";
         Boolean click = false;
-        String query = "INSERT INTO message(status, id_users, description) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO message(status, id_users, description, admin_click, user_click) VALUES(?, ?, ?, ?, ?)";
 
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, def_mail);
@@ -381,6 +411,36 @@ public class JDBCPostgreSQL implements DAO {
             }
         }
         return def_mail;
+    }
+
+    public void updateMessage(int id, Boolean isAdmin) {
+        try {
+            this.connection = DriverManager
+                    .getConnection(DB_URL, USER, PASS);
+        } catch (SQLException e) {
+            System.out.println("Connection Failed");
+            e.printStackTrace();
+        }
+
+        String queryAdmin = "UPDATE message SET admin_click = ? WHERE mes_id = ? ";
+        String queryUser = "UPDATE message SET user_click = ? WHERE id_users = ? ";
+
+        try (PreparedStatement pst = connection.prepareStatement(isAdmin ? queryAdmin : queryUser)) {
+            pst.setBoolean(1, true);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+            System.out.println("success update");
+        } catch (SQLException error) {
+            Logger logger = Logger.getLogger(JDBCPostgreSQL.class.getName());
+            logger.log(Level.SEVERE, error.getMessage(), error);
+        } finally {
+
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

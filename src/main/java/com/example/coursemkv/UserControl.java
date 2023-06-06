@@ -7,9 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
 public class UserControl {
@@ -47,9 +49,13 @@ public class UserControl {
     }
 
     public void end_message(ActionEvent actionEvent) {
+        System.out.println(user.getId_users());
+        db.updateMessage(user.getId_users(), false);
 
     }
 
     public void load_button(ActionEvent actionEvent) {
+        String filename = Paths.get("images_db/im2.jpg").toUri().toString();
+        geoimage.setImage(new Image(filename));
     }
 }
